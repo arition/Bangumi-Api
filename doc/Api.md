@@ -1,6 +1,13 @@
 #Bangumi 基于netaba.re的API文档
 ### 约定
 {}表示需替换内容
+### 目录
+[基本API](#基本API)   
+[登录](#登录)   
+
+[收视相关API](#收视相关API)   
+[正在观看的动画列表](#正在观看的动画列表)   
+[正在观看的动画的章节信息](#正在观看的动画的章节信息)
 ### 基本API
 ##### 登录
 POST http://netaba.re/api/login   
@@ -38,7 +45,7 @@ JSON格式
 说明  
 此为基本的登录Api，验证方式使用的是基本的http Basic验证。响应关键需要记录`username`和`auth`这两个key，这两个key是访问其他Api时必须要提供的验证信息    
 
-###收视相关Api
+###收视相关API
 #####正在观看的动画列表
 POST http://netaba.re/api/collection    
 HTTP 请求头  
@@ -63,7 +70,7 @@ JSON格式
     "subject": {
       "id": 798,  //动画id
       "url": "http://bgm.tv/subject/798",
-      "type": 2,  //0想看 1看过 2在看 3搁置 4抛弃
+      "type": 2,  //1=漫画|小说 2=动画|二次元番 3=音乐 4=游戏 6=三次元番
       "name": "sola",
       "name_cn": "",
       "summary": "",
@@ -77,7 +84,7 @@ JSON格式
         "small": "http://lain.bgm.tv/pic/cover/s/9e/3c/798_kGsvD.jpg",
         "grid": "http://lain.bgm.tv/pic/cover/g/9e/3c/798_kGsvD.jpg"
       },
-      "collection": {  //此部分不明
+      "collection": {  //此部分应该为想看|看过|在看等的人数，但因不明原因只有doing（在看）可以显示人数
         "wish": 0,
         "collect": 0,
         "doing": 50,
@@ -121,5 +128,79 @@ JSON格式
 说明    
 正在观看的动画列表。好像并不能获得书籍等的正在观看信息。   
 
+#####正在观看的动画的章节信息   
+POST http://netaba.re/api/progress    
+HTTP 请求头  
+Key: `Authorization`   
+Value: `Basic {basic64编码的{登录响应正文中的username}:{登录响应正文中的auth}}`  
+
+HTTP 请求正文   
+无   
+
+HTTP 响应头  
+无特殊信息
+
+HTTP 响应正文   
+JSON格式     
+示例
+```
+[
+  {
+    "subject_id": 340,    //动画id（此处是虫师）
+    "eps": [    //章节数组
+      {
+        "id": 333,   //章节id（第一集）
+        "status": {
+          "id": 2,   //1=想看 2=看过 3=在看	4=搁置 5=抛弃
+          "css_name": "Watched",
+          "url_name": "watched",
+          "cn_name": "看过"
+        }
+      },
+      {
+        "id": 334,  //章节id（第二集）
+        "status": {
+          "id": 2,
+          "css_name": "Watched",
+          "url_name": "watched",
+          "cn_name": "看过"
+        }
+      }
+    ]   //这里章节数组结束，表明虫师看到第二集（其他集没有任何信息）
+  },
+  {
+    "subject_id": 798,
+    "eps": [
+      {
+        "id": 3170,
+        "status": {
+          "id": 2,
+          "css_name": "Watched",
+          "url_name": "watched",
+          "cn_name": "看过"
+        }
+      },
+      {
+        "id": 3171,
+        "status": {
+          "id": 2,
+          "css_name": "Watched",
+          "url_name": "watched",
+          "cn_name": "看过"
+        }
+      },
+      {
+        "id": 3172,
+        "status": {
+          "id": 2,
+          "css_name": "Watched",
+          "url_name": "watched",
+          "cn_name": "看过"
+        }
+      }
+    ]
+  }
+]
+```
 
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a>进行许可。
