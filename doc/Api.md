@@ -7,7 +7,13 @@
 
 [收视相关API](#收视相关API)   
 [正在观看的动画列表](#正在观看的动画列表)   
-[正在观看的动画的章节信息](#正在观看的动画的章节信息)
+[条目的用户自定义信息](#条目的用户自定义信息)   
+[正在观看的动画的章节信息](#正在观看的动画的章节信息)    
+[更新章节状态-看到某集](#更新章节状态-看到某集)   
+[更新章节状态-看过某集](#更新章节状态-看过某集)   
+[更新章节状态-撤销某集状态](#更新章节状态-撤销某集状态)   
+[更新条目状态](#更新条目状态)   
+
 ### 基本API
 ##### 登录
 POST http://netaba.re/api/login   
@@ -128,6 +134,51 @@ JSON格式
 说明    
 正在观看的动画列表。好像并不能获得书籍等的正在观看信息。   
 
+#####条目的用户自定义信息  
+POST http://netaba.re/api/collection/subject/{条目id}   
+HTTP 请求头  
+Key: `Authorization`   
+Value: `Basic {basic64编码的{登录响应正文中的username}:{登录响应正文中的auth}}`  
+
+HTTP 请求正文   
+无   
+
+HTTP 响应头  
+无特殊信息
+
+HTTP 响应正文   
+JSON格式     
+示例
+```
+//http://netaba.re/api/collection/subject/768
+{
+  "status": {
+    "id": 2,  //1=想看 2=看过 3=在看 4=搁置 5=抛弃
+    "type": "collect",  //do=在看 on_hold=搁置 dropped=弃番 wish=想看 collect=看过
+    "name": "看过"
+  },
+  "rating": 7,   //评分
+  "comment": "OAOOOAOOAOA金发双马尾萝莉prpr",    //用户吐槽（评论）
+  "tag": [   //用户添加的标签
+    ""
+  ],
+  "ep_status": 15,  //看到第几集
+  "lasttouch": 1436691097,  //unix时间戳
+  "user": {  //用户信息，重复提供意义不明
+    "id": 85184,
+    "url": "http://bgm.tv/user/arition",
+    "username": "arition",
+    "nickname": "arition",
+    "avatar": {
+      "large": "http://lain.bgm.tv/pic/user/l/000/08/51/85184.jpg?r=1340538060",
+      "medium": "http://lain.bgm.tv/pic/user/m/000/08/51/85184.jpg?r=1340538060",
+      "small": "http://lain.bgm.tv/pic/user/s/000/08/51/85184.jpg?r=1340538060"
+    },
+    "sign": ""
+  }
+}
+```
+
 #####正在观看的动画的章节信息   
 POST http://netaba.re/api/progress    
 HTTP 请求头  
@@ -151,7 +202,7 @@ JSON格式
       {
         "id": 333,   //章节id（第一集）
         "status": {
-          "id": 2,   //1=想看 2=看过 3=在看	4=搁置 5=抛弃
+          "id": 2,   //1=想看 2=看过 3=在看 4=搁置 5=抛弃
           "css_name": "Watched",
           "url_name": "watched",
           "cn_name": "看过"
@@ -199,6 +250,170 @@ JSON格式
         }
       }
     ]
+  }
+]
+```
+
+#####更新章节状态-看到某集   
+POST http://netaba.re/api/subject/{条目id}/eps/batch_update    
+HTTP 请求头  
+Key: `Authorization`   
+Value: `Basic {basic64编码的{登录响应正文中的username}:{登录响应正文中的auth}}`  
+
+HTTP 请求正文   
+JSON格式     
+示例
+```
+{
+  eps: {
+    538086: 3  //id为538086的章节，为条目中的第3集
+  }
+}
+```
+
+HTTP 响应头  
+无特殊信息
+
+HTTP 响应正文   
+JSON格式     
+示例
+```
+{
+  "request": "/subject/120763/update/watched_eps?source=intouch",
+  "code": 202,
+  "error": "Accepted"
+}
+```
+
+#####更新章节状态-看过某集   
+POST http://netaba.re/api/subject/{条目id}/eps/watched    
+HTTP 请求头  
+Key: `Authorization`   
+Value: `Basic {basic64编码的{登录响应正文中的username}:{登录响应正文中的auth}}`  
+
+HTTP 请求正文   
+JSON格式     
+示例
+```
+{
+  eps: {
+    538086: 3,  //id为538086的章节，为条目中的第3集
+    538087: 4   //id为538087的章节，为条目中的第4集
+  }
+}
+```
+
+HTTP 响应头  
+无特殊信息
+
+HTTP 响应正文   
+JSON格式     
+示例
+```
+[
+  {
+    "request": "/ep/538086/status/watched?source=intouch",
+    "code": 200,
+    "error": "OK"
+  },
+  {
+    "request": "/ep/538087/status/watched?source=intouch",
+    "code": 200,
+    "error": "OK"
+  }
+]
+```
+说明    
+支持同时看过多集
+
+#####更新章节状态-撤销某集状态   
+POST http://netaba.re/api/subject/{条目id}/eps/remove    
+HTTP 请求头  
+Key: `Authorization`   
+Value: `Basic {basic64编码的{登录响应正文中的username}:{登录响应正文中的auth}}`  
+
+HTTP 请求正文   
+JSON格式     
+示例
+```
+{
+  eps: {
+    538086: 3  //id为538086的章节，为条目中的第3集
+  }
+}
+```
+
+HTTP 响应头  
+无特殊信息
+
+HTTP 响应正文   
+JSON格式     
+示例
+```
+[
+  {
+    "request": "/ep/538086/status/watched?source=intouch",
+    "code": 200,
+    "error": "OK"
+  }
+]
+```
+说明    
+支持同时撤销多集
+
+#####更新条目状态
+POST http://netaba.re/api/subjects/update_status/{状态字符串}   // do=在看 on_hold=搁置 dropped=弃番 wish=想看 collect=看过   
+HTTP 请求头  
+Key: `Authorization`   
+Value: `Basic {basic64编码的{登录响应正文中的username}:{登录响应正文中的auth}}`  
+
+HTTP 请求正文   
+JSON格式     
+示例
+```
+{
+  subjects: [
+    77188     //条目id
+  ], 
+  comment: "",     //用户吐槽（评论）
+  tags: "",    //添加标签
+  rating: 0   //评分
+}
+```
+
+HTTP 响应头  
+无特殊信息
+
+HTTP 响应正文   
+JSON格式     
+示例
+```
+[
+  {
+    "status": {
+      "id": 3,  //1=想看 2=看过 3=在看 4=搁置 5=抛弃
+      "type": "do",  // do=在看 on_hold=搁置 dropped=弃番 wish=想看 collect=看过   
+      "name": null
+    },
+    "rating": 0,  //评分
+    "comment": "",  //用户吐槽（评论）
+    "tag": [   //用户添加的标签
+      ""
+    ],
+    "ep_status": 0,   //看到第几集
+    "lasttouch": 1437134447,  //unix时间戳
+    "user": {   //用户信息，重复提供意义不明
+      "id": 85184,
+      "url": "http://bgm.tv/user/arition",
+      "username": "arition",
+      "nickname": "arition",
+      "avatar": {
+        "large": "http://lain.bgm.tv/pic/user/l/000/08/51/85184.jpg?r=1340538060",
+        "medium": "http://lain.bgm.tv/pic/user/m/000/08/51/85184.jpg?r=1340538060",
+        "small": "http://lain.bgm.tv/pic/user/s/000/08/51/85184.jpg?r=1340538060"
+      },
+      "sign": ""
+    }
   }
 ]
 ```
