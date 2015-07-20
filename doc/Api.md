@@ -554,7 +554,7 @@ JSON格式
   "collection": {  
     "wish": 212,  //想看人数
     "collect": 13,  //看过人数
-    "doing": 161,  //再在看人数
+    "doing": 161,  //在看人数
     "on_hold": 9,  //搁置人数
     "dropped": 3  //抛弃人数
   },
@@ -892,7 +892,8 @@ JSON格式
 ```
 
 #####用户观看统计
-POST http://netaba.re/api/user/{用户的username}/stats   HTTP 请求头  
+POST http://netaba.re/api/user/{用户的username}/stats   
+HTTP 请求头  
 Key: `Authorization`   
 Value: `Basic {basic64编码的{登录响应正文中的username}:{登录响应正文中的auth}}`  
 
