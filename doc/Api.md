@@ -65,7 +65,7 @@ JSON格式
 POST http://netaba.re/api/collection    
 HTTP 请求头  
 Key: `Authorization`   
-Value: `Basic {basic64编码的{登录响应正文中的username}:{登录响应正文中的auth}}`  
+Value: `Basic {base64({登录响应正文中的username}:{登录响应正文中的auth})}`  
 
 HTTP 请求正文   
 无   
@@ -147,7 +147,7 @@ JSON格式
 POST http://netaba.re/api/collection/subject/{条目id}   
 HTTP 请求头  
 Key: `Authorization`   
-Value: `Basic {basic64编码的{登录响应正文中的username}:{登录响应正文中的auth}}`  
+Value: `Basic {base64({登录响应正文中的username}:{登录响应正文中的auth})}`  
 
 HTTP 请求正文   
 无   
@@ -192,7 +192,7 @@ JSON格式
 POST http://netaba.re/api/progress    
 HTTP 请求头  
 Key: `Authorization`   
-Value: `Basic {basic64编码的{登录响应正文中的username}:{登录响应正文中的auth}}`  
+Value: `Basic {base64({登录响应正文中的username}:{登录响应正文中的auth})}`  
 
 HTTP 请求正文   
 无   
@@ -267,7 +267,7 @@ JSON格式
 POST http://netaba.re/api/subject/{条目id}/eps/batch_update    
 HTTP 请求头  
 Key: `Authorization`   
-Value: `Basic {basic64编码的{登录响应正文中的username}:{登录响应正文中的auth}}`  
+Value: `Basic {base64({登录响应正文中的username}:{登录响应正文中的auth})}`  
 
 HTTP 请求正文   
 JSON格式     
@@ -298,7 +298,7 @@ JSON格式
 POST http://netaba.re/api/subject/{条目id}/eps/watched    
 HTTP 请求头  
 Key: `Authorization`   
-Value: `Basic {basic64编码的{登录响应正文中的username}:{登录响应正文中的auth}}`  
+Value: `Basic {base64({登录响应正文中的username}:{登录响应正文中的auth})}`  
 
 HTTP 请求正文   
 JSON格式     
@@ -339,7 +339,7 @@ JSON格式
 POST http://netaba.re/api/subject/{条目id}/eps/remove    
 HTTP 请求头  
 Key: `Authorization`   
-Value: `Basic {basic64编码的{登录响应正文中的username}:{登录响应正文中的auth}}`  
+Value: `Basic {base64({登录响应正文中的username}:{登录响应正文中的auth})}`  
 
 HTTP 请求正文   
 JSON格式     
@@ -374,7 +374,7 @@ JSON格式
 POST http://netaba.re/api/subjects/update_status/{状态字符串}   // do=在看 on_hold=搁置 dropped=弃番 wish=想看 collect=看过   
 HTTP 请求头  
 Key: `Authorization`   
-Value: `Basic {basic64编码的{登录响应正文中的username}:{登录响应正文中的auth}}`  
+Value: `Basic {base64({登录响应正文中的username}:{登录响应正文中的auth})}`  
 
 HTTP 请求正文   
 JSON格式     
@@ -431,8 +431,7 @@ JSON格式
 #####搜索条目
 GET http://netaba.re/api/search/{UrlEncode后的搜索关键字}   
 HTTP 请求头  
-Key: `Authorization`   
-Value: `Basic {basic64编码的{登录响应正文中的username}:{登录响应正文中的auth}}`  
+无    
 
 HTTP 请求正文   
 JSON格式     
@@ -499,8 +498,7 @@ JSON格式
 #####获得条目信息
 POST http://netaba.re/api/subject/{条目id}   
 HTTP 请求头  
-Key: `Authorization`   
-Value: `Basic {basic64编码的{登录响应正文中的username}:{登录响应正文中的auth}}`  
+无     
 
 HTTP 请求正文   
 JSON格式     
@@ -801,8 +799,7 @@ JSON格式
 #####获得当季新番
 POST http://netaba.re/api/schedule     
 HTTP 请求头  
-Key: `Authorization`   
-Value: `Basic {basic64编码的{登录响应正文中的username}:{登录响应正文中的auth}}`  
+无    
 
 HTTP 请求正文   
 JSON格式     
@@ -871,7 +868,7 @@ JSON格式
 POST http://netaba.re/api/user      
 HTTP 请求头  
 Key: `Authorization`   
-Value: `Basic {basic64编码的{登录响应正文中的username}:{登录响应正文中的auth}}`  
+Value: `Basic {base64({登录响应正文中的username}:{登录响应正文中的auth})}`  
 
 HTTP 请求正文   
 JSON格式     
@@ -895,7 +892,7 @@ JSON格式
 POST http://netaba.re/api/user/{用户的username}/stats   
 HTTP 请求头  
 Key: `Authorization`   
-Value: `Basic {basic64编码的{登录响应正文中的username}:{登录响应正文中的auth}}`  
+Value: `Basic {base64({登录响应正文中的username}:{登录响应正文中的auth})}`  
 
 HTTP 请求正文   
 JSON格式     
