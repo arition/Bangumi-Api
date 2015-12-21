@@ -30,6 +30,7 @@ POST http://netaba.re/api/login
 HTTP 请求头  
 Key: `Authorization`   
 Value: `Basic {basic64编码的{用户名}:{密码}}`  
+关于HTTP Authorization头的参考[维基](https://zh.wikipedia.org/wiki/HTTP%E5%9F%BA%E6%9C%AC%E8%AE%A4%E8%AF%81)    
 
 HTTP 请求正文   
 无   
